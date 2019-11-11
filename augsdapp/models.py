@@ -4,12 +4,12 @@ from django.utils import timezone
 
 
 class Course(models.Model):
-    CourseCode = models.CharField(max_length=10)
-    CourseName = models.CharField(max_length=100)
-    MidsemDateTime = models.DateTimeField()
-    CompreDateTime = models.DateTimeField()
+    courseCode = models.CharField(max_length=10)
+    courseName = models.CharField(max_length=100)
+    midsemDateTime = models.DateTimeField()
+    compreDateTime = models.DateTimeField()
     courseIC = models.CharField(max_length=50)
-    Sections=models.IntegerField()
+    #sections=models.IntegerField()             its a list , it needs changes
 
 
 # class Sections(models.Model):
