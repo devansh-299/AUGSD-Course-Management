@@ -8,30 +8,38 @@ class Course(models.Model):
     courseName = models.CharField(max_length=100)
     midsemDateTime = models.DateTimeField()
     compreDateTime = models.DateTimeField()
-    courseIC = models.CharField(max_length=50)
-    #sections=models.IntegerField()             its a list , it needs changes
+    courseIC = models.ForeignKey(settings.AUTH_USER_MODEL,
+    	on_delete="SET_NULL",
+    	null=True)
+
+    def __str__(self):
+    	return "(" + str(self.courseCode) + ") - " + \
+    			str(self.courseName)
 
 
-# class Sections(models.Model):
-#     CourseCode=models.ForeignKey(Courses,)
+class Room(models.Model):
+	location = models.CharField(max_length=10)
 
 
+secClassChoices = (
+	('L', "Lecture"),
+	('T', "Tutorial"),
+	('P', "Practical"))
 
-
-# class Instructor(models.Model):
-#     name = models.CharField(max_length = 100)
-
-
-# class SubSection(models.Model):
-#     Instructors = models.ForeignKey(Instructor, related_name='subSection1', default=None)   
-#     instructor2 = models.ForeignKey(Instructor, related_name='subSection2', default=None)   
-#     days = models.CharField(max_length = 7)
-#     startTime = models.IntegerField()
-#     endTime = models.IntegerField()
-#     # room = models.ForeignKey(Room, related_name='room', default=None)
-#     courseCode = models.CharField(max_length = 10)
-
-
-
+class SecClass(models.Model):
+    course = models.ForeignKey(Course,
+      	on_delete=models.CASCADE,
+      	null=True)
+    name = models.CharField(max_length=2,
+    	help_text="L2, T3, P2, or other relevant name")
+    secType = models.CharField(max_length=1,choices=secClassChoices)
+    instructor = models.ForeignKey(settings.AUTH_USER_MODEL,
+    	on_delete="SET_NULL",
+    	null=True)
+    days = models.CharField(max_length=7)
+    startTime = models.TimeField()
+    endTime = models.TimeField()
+    room = models.ForeignKey(Room,
+    	on_delete=models.SET_NULL,null=True)
 
 
