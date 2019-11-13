@@ -12,7 +12,8 @@ class AddSectionForm(forms.ModelForm):
 
 	class Meta:
 		model = SecClass
-		fields=('name', 'course', 'secType','days','instructor','startTime','endTime')
+		fields=('name', 'course', 'secType','days','instructor','classSize','startTime','endTime')
+
 
 
 
