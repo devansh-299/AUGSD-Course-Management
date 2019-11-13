@@ -4,10 +4,10 @@ from django.utils import timezone
 
 
 class Course(models.Model):
-    courseCode = models.CharField(max_length=10)
+    courseCode = models.CharField(max_length=10,unique=True)
     courseName = models.CharField(max_length=100)
-    midsemDateTime = models.DateTimeField()
-    compreDateTime = models.DateTimeField()
+    midsemDateTime = models.DateTimeField(unique=True)
+    compreDateTime = models.DateTimeField(unique=True)
     courseIC = models.ForeignKey(settings.AUTH_USER_MODEL,
     	on_delete="SET_NULL",
     	null=True)
