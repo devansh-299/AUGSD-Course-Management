@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import AddCourseForm,AddSectionForm
-from .models import SecClass
+from .models import SecClass,Room
 from django.contrib import messages
 
 def homepage(request):
@@ -24,15 +24,19 @@ def AddSection(request):
 			instructorCheck = SecClass.objects.filter(startTime__gte=form.cleaned_data.get('startTime'),
 				endTime__lte=form.cleaned_data.get('endTime'),
 				days=form.cleaned_data.get('days')).count()
-			# capacity check not implemented for now 
-			if instructorCheck==0:
+			classSize = form.cleaned_data.get('classSize')
+			roomSelected = form.cleaned_data.get('room')
+			if instructorCheck != 0:
+				messages.success(request, 'Instructor not available for the selected time slot')
+				form = AddSectionForm(request.POST)
+			elif classSize > roomSelected.capacity:
+				messages.success(request, 'Room cannot accomodate more participants')
+				form = AddSectionForm(request.POST)
+			else:
 				post=form.save(commit=False)
 				post.save()
 				messages.success(request, 'Successful')
-				return redirect('AddCourse')
-			else:
-				messages.success(request, 'Instructor is not free for the specified slot')
-				form=AddSectionForm()  # pending to add Toast etc
+				return redirect('AddCourse') 
 	else:
 		form=AddSectionForm()
 	return render(request,'augsdapp/AddSection.html',{'form':form})

@@ -21,6 +21,9 @@ class Room(models.Model):
 	name = models.CharField(max_length=10,help_text="LT-1,C-301,A-501,DLT-5",unique=True,default='LT-1')
 	capacity = models.IntegerField(null=True)
 
+	def __str__(self):
+		return str(self.name)
+
 class Instructor(models.Model):
 	instructorId = models.OneToOneField(User,on_delete=models.CASCADE)
 
@@ -44,6 +47,6 @@ class SecClass(models.Model):
     endTime = models.TimeField()
     room = models.ForeignKey(Room,
     	on_delete=models.SET_NULL,null=True)
-    classSize=models.IntegerField(help_text="approximate number of students in class",null=True)
+    classSize = models.IntegerField(help_text="Approximate number of students in class",null=True)
 
 
