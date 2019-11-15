@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import AddCourseForm,AddSectionForm
-from .models import SecClass,Room
+from .models import SecClass,Room,Course
 from django.contrib import messages
+from django.db.models import Q
 
 def homepage(request):
     return render(request, 'augsdapp/homepage.html', {})
@@ -42,7 +43,24 @@ def AddSection(request):
 	return render(request,'augsdapp/AddSection.html',{'form':form})
 
 def ModifyCourse(request):
-    return render(request, 'augsdapp/ModifyCourse.html', {})
+	if request.method=="GET":
+		search_query = request.GET.get('q',None)
+		submitbutton= request.GET.get('submit')
+		if search_query is not None:
+			lookups = Q(courseCode__icontains=search_query)
+			results = Course.objects.filter(lookups).distinct()
+
+			context={'results': results,
+			'submitbutton': submitbutton}
+			return render(request, 'augsdapp/ModifyCourse.html', context)
+		else:
+			messages.success(request, 'No Course Found')
+			return render(request, 'augsdapp/ModifyCourse.html')
+	else:
+		return render(request, 'augsdapp/ModifyCourse.html')
 
 def DeleteCourse(request):
-    return render(request, 'augsdapp/DeleteCourse.html', {})
+	return render(request, 'augsdapp/DeleteCourse.html', {})
+
+# Implementing search for Modify/Delete
+
