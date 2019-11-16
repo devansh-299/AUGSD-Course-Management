@@ -17,6 +17,7 @@ class Course(models.Model):
     			str(self.courseName)
 
 
+
 class Room(models.Model):
 	name = models.CharField(max_length=10,help_text="LT-1,C-301,A-501,DLT-5",unique=True,default='LT-1')
 	capacity = models.IntegerField(null=True)
