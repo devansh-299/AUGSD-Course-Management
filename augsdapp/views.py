@@ -11,14 +11,15 @@ def AddCourse(request):
 	if request.method =="POST":
 		form = AddCourseForm(request.POST)
 		if form.is_valid():
+			#myCourse = get_oject_or_404(Course,courseCode=form.cleaned_data.get('courseCode'))
 			post = form.save()
 			post.save()
-			return redirect('AddSection')
+			return redirect('AddSection',{'Course':post})
 	else:
 		form = AddCourseForm()
 	return render(request, 'augsdapp/AddCourse.html', {'form':form})
 
-def AddSection(request):
+def AddSection(request,Course):
 	if request.method=="POST":
 		form = AddSectionForm(request.POST)
 		if form.is_valid():
