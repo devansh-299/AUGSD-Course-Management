@@ -1,5 +1,9 @@
-body{
-	background: #fafafa;
+body {
+	background: #f9f9f9;
 	color: #333333;
-	margin-top: 10rem;
+	margin-top: 5rem;
+}
+
+.AddCourseForm {
+	background: #fafafa;
 }
