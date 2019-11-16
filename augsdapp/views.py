@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AddCourseForm,AddSectionForm
 from .models import SecClass,Room,Course
 from django.contrib import messages
@@ -11,15 +11,16 @@ def AddCourse(request):
 	if request.method =="POST":
 		form = AddCourseForm(request.POST)
 		if form.is_valid():
-			#myCourse = get_oject_or_404(Course,courseCode=form.cleaned_data.get('courseCode'))
 			post = form.save()
 			post.save()
-			return redirect('AddSection',{'Course':post})
+			return redirect('AddSection', CourseCode=post.courseCode)
 	else:
 		form = AddCourseForm()
 	return render(request, 'augsdapp/AddCourse.html', {'form':form})
 
-def AddSection(request,Course):
+def AddSection(request,CourseCode):
+	course = get_object_or_404(Course, courseCode=CourseCode)
+	print(course.courseCode)
 	if request.method=="POST":
 		form = AddSectionForm(request.POST)
 		if form.is_valid():
@@ -29,10 +30,10 @@ def AddSection(request,Course):
 			classSize = form.cleaned_data.get('classSize')
 			roomSelected = form.cleaned_data.get('room')
 			if instructorCheck != 0:
-				messages.success(request, 'Instructor not available for the selected time slot')
+				messages.error(request, 'Instructor not available for the selected time slot')
 				form = AddSectionForm(request.POST)
 			elif classSize > roomSelected.capacity:
-				messages.success(request, 'Room cannot accomodate more participants')
+				messages.error(request, 'Room cannot accomodate more participants')
 				form = AddSectionForm(request.POST)
 			else:
 				post=form.save(commit=False)
@@ -41,15 +42,19 @@ def AddSection(request,Course):
 				return redirect('AddCourse') 
 	else:
 		form=AddSectionForm()
-	return render(request,'augsdapp/AddSection.html',{'form':form})
+	return render(request,'augsdapp/AddSection.html',
+		{'form':form, 'course': course}
+		)
 
 def ModifyCourse(request):
 	if request.method=="GET":
 		search_query = request.GET.get('q',None)
 		submitbutton= request.GET.get('submit')
 		if search_query is not None:
-			lookups = Q(courseCode__icontains=search_query)
-			results = Course.objects.filter(lookups).distinct()
+			lookups = Q(courseCode__icontains=search_query) | \
+				Q(courseName__icontains=search_query) | \
+				Q(courseIC__username__icontains=search_query)
+			results = Course.objects.filter(lookups)
 
 			context={'results': results,
 			'submitbutton': submitbutton}
@@ -61,7 +66,35 @@ def ModifyCourse(request):
 		return render(request, 'augsdapp/ModifyCourse.html')
 
 def DeleteCourse(request):
-	return render(request, 'augsdapp/DeleteCourse.html', {})
+		if request.method=="GET":
+			search_query = request.GET.get('q',None)
+			submitbutton= request.GET.get('submit')
+			if search_query is not None:
+				lookups = Q(courseCode__icontains=search_query) | \
+					Q(courseName__icontains=search_query) | \
+					Q(courseIC__username__icontains=search_query)
+				results = Course.objects.filter(lookups)
+				context={'results': results,
+				'submitbutton': submitbutton}
+				return render(request, 'augsdapp/DeleteCourse.html', context)
+			else:
+				messages.success(request, 'No Course Found')
+				return render(request, 'augsdapp/DeleteCourse.html')
 
-# Implementing search for Modify/Delete
+		elif request.GET.get('deleteCourseButton'):
+			search_query = request.GET.get('q',None)
+			submitbutton= request.GET.get('submit')
+			if search_query is not None:
+				lookups = Q(courseCode__icontains=search_query) | \
+					Q(courseName__icontains=search_query) | \
+					Q(courseIC__username__icontains=search_query)
+				Course.objects.filter(lookups).delete()
+				messages.success(request, 'Course Deleted')
+				return render(request, 'augsdapp/DeleteCourse.html')
+			else:
+				messages.success(request, 'No Course Found')
+				return render(request, 'augsdapp/DeleteCourse.html')
+		else:
+			return render(request, 'augsdapp/DeleteCourse.html')
+
 

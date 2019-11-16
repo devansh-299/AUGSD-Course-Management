@@ -1,50 +1,50 @@
-{% load static %}
+{% extends "augsdapp/base.html" %}
 {% load crispy_forms_tags %}
 
-<head>
-        <title>Augsd Project|MddifyCourse</title>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="{% static 'augsdapp/main.css' %}">
-        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&subset=greek,cyrillic" rel="stylesheet" type="text/css">
-</head>
-<body>
+{% block title %}
+	Mddify Course
+{% endblock %}
+
+{% block heading %}
+	<h1 class="heading">Modify Course</h1>
+{% endblock %}
+
 {% block content %}
-<h1><b>Modify Course</b></h1>
 <br/>
 <form  method="GET" value="{{request.GET.q}}">
-Search <input type="text" name="q" value="{{request.GET.q}}" placeholder="Search Course"/>
-<input type="submit" name="submit" value="Search"/>
+	Search
+	<input type="text" name="q" value="{{request.GET.q}}" placeholder="Search Course"/>
+	<input type="submit" class="btn btn-primary" name="submit" value="Search"/>
 </form>
 
 {% if submitbutton == 'Search' and request.GET.q != '' %}
-{% if results %}
-<h1>Results for <b>{{ request.GET.q }}</b></h1>
-<br/><br/>
-
-{% for result in results %}
-
-<b>CouseName </b> - 
-{{result.courseName}}
-<br/>
-<b>Instructor Incharge </b> - 
-{{result.courseIC}}
-<br/>
-<b>MidSem Date Time </b> - 
-{{result.midsemDateTime}}
-<br/>
-<b>Comprehensive Date Time </b> - 
-{{result.compreDateTime}}
-<br/>
-<br/>
-{% endfor %}
-{% else %}
-No search results for this query
+	{% if results %}
+		<h1>
+			Results for <b>{{ request.GET.q }}</b>
+		</h1>
+		<ul>
+		{% for result in results %}
+			<div class="card w-50">
+  				<div class="card-body">
+    				<h5 class="card-title">{{result.courseCode}} | {{result.courseName}}</h5>
+    					<p class="card-text">
+    							<b>Instructor Incharge </b> - 
+								{{result.courseIC}}
+								<br/>
+								<b>MidSem Date Time </b> - 
+								{{result.midsemDateTime}}
+								<br/>
+								<b>Comprehensive Date Time </b> - 
+								{{result.compreDateTime}}
+    					</p>
+    				<a href="#" class="btn btn-primary">Modify Course</a>
+  				</div>
+			</div>
+		{% endfor %}
+		</ul>
+	{% else %}
+		No search results for this query
+	{% endif %}
 {% endif %}
-{% endif %}
-
-<button type="submit" class="save btn btn-default" name="Modify">Modify Course</button>
 
 {% endblock content %}
-
-</body>
