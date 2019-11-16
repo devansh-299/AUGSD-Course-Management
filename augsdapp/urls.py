@@ -6,5 +6,5 @@ urlpatterns = [
     path('AddCourse/', views.AddCourse, name='AddCourse'),
     path('ModifyCourse/', views.ModifyCourse, name='ModifyCourse'),
     path('DeleteCourse/', views.DeleteCourse, name='DeleteCourse'),
-    path('AddSection/', views.AddSection, name='AddSection'),
+    path('AddSection/<Course>/', views.AddSection, name='AddSection'),
 ]

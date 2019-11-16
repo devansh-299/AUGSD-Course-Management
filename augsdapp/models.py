@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
-
+from django.contrib.auth.models import User
 
 class Course(models.Model):
     courseCode = models.CharField(max_length=10,unique=True)
@@ -18,8 +18,14 @@ class Course(models.Model):
 
 
 class Room(models.Model):
-	location = models.CharField(max_length=10)
+	name = models.CharField(max_length=10,help_text="LT-1,C-301,A-501,DLT-5",unique=True,default='LT-1')
+	capacity = models.IntegerField(null=True)
 
+	def __str__(self):
+		return str(self.name)
+
+class Instructor(models.Model):
+	instructorId = models.OneToOneField(User,on_delete=models.CASCADE)
 
 secClassChoices = (
 	('L', "Lecture"),
@@ -33,7 +39,7 @@ class SecClass(models.Model):
     name = models.CharField(max_length=2,
     	help_text="L2, T3, P2, or other relevant name")
     secType = models.CharField(max_length=1,choices=secClassChoices)
-    instructor = models.ForeignKey(settings.AUTH_USER_MODEL,
+    instructor = models.ForeignKey(User,
     	on_delete="SET_NULL",
     	null=True)
     days = models.CharField(max_length=7)
@@ -41,5 +47,6 @@ class SecClass(models.Model):
     endTime = models.TimeField()
     room = models.ForeignKey(Room,
     	on_delete=models.SET_NULL,null=True)
+    classSize = models.IntegerField(help_text="Approximate number of students in class",null=True)
 
 

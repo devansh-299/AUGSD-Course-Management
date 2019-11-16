@@ -6,4 +6,8 @@ body {
 
 .AddCourseForm {
 	background: #fafafa;
+	color: #333333;
+	margin-top: 10rem;
+	margin-left: 10rem;
+	font-size: 30px
 }
