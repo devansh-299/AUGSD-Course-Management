@@ -1,4 +1,52 @@
 {% extends "augsdapp/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+	Mddify Course
+{% endblock %}
+
+{% block heading %}
+	<h1 class="heading">Delete Course</h1>
+{% endblock %}
+
 {% block content %}
-<h1>Delete course</h1>
+<br/>
+<form  method="GET" value="{{request.GET.q}}">
+	Search
+	<input type="text" name="q" value="{{request.GET.q}}" placeholder="Search Course"/>
+	<input type="submit" class="btn btn-primary" name="submit" value="Search"/>
+</form>
+
+{% if submitbutton == 'Search' and request.GET.q != '' %}
+	{% if results %}
+		<h1>
+			Results for <b>{{ request.GET.q }}</b>
+		</h1>
+		<ul>
+		{% for result in results %}
+			<div class="card w-50">
+  				<div class="card-body">
+    				<h5 class="card-title">{{result.courseCode}} | {{result.courseName}}</h5>
+    					<p class="card-text">
+    							<b>Instructor Incharge </b> - 
+								{{result.courseIC}}
+								<br/>
+								<b>MidSem Date Time </b> - 
+								{{result.midsemDateTime}}
+								<br/>
+								<b>Comprehensive Date Time </b> - 
+								{{result.compreDateTime}}
+    					</p>
+    					<form action="#" method="get">
+ 							<input type="submit" class="btn btn-primary" value="Delete Course" name="deleteCourseButton">
+						</form>
+  				</div>
+			</div>
+		{% endfor %}
+		</ul>
+	{% else %}
+		No search results for this query
+	{% endif %}
+{% endif %}
+
 {% endblock content %}

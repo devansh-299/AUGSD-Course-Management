@@ -1,12 +1,17 @@
 {% extends "augsdapp/base.html" %}
 {% load crispy_forms_tags %}
 
+{% block title %}
+Add Section
+{% endblock %}
+
 {% block content %}
 <div class="container AddSectionForm">
-   <h1 class="heading">{{ Course.courseCode }}| Add Section</h1>
-	<form method="POST" class="AddSectionForm">{% csrf_token %}
+   <h1 class="heading">{{ course }} |  Add Section</h1>
+	<form method="POST" class="AddSectionForm">
+        {% csrf_token %}
         {{ form|crispy}}
-        <button type="submit" class="save btn btn-default">Add Section</button>
+        <button type="submit" class="btn btn-primary">Add Section</button>
         {% if messages %}
 			<ul class="messages">
     		{% for message in messages %}

@@ -39,7 +39,8 @@ class SecClass(models.Model):
       	null=True)
     name = models.CharField(max_length=2,
     	help_text="L2, T3, P2, or other relevant name")
-    secType = models.CharField(max_length=1,choices=secClassChoices)
+    secType = models.CharField(max_length=1,
+        choices=secClassChoices)
     instructor = models.ForeignKey(User,
     	on_delete="SET_NULL",
     	null=True)
@@ -47,7 +48,9 @@ class SecClass(models.Model):
     startTime = models.TimeField()
     endTime = models.TimeField()
     room = models.ForeignKey(Room,
-    	on_delete=models.SET_NULL,null=True)
-    classSize = models.IntegerField(help_text="Approximate number of students in class",null=True)
+    	on_delete=models.SET_NULL,
+        null=True)
+    classSize = models.IntegerField(help_text="Approximate number of students in class",
+        null=True)
 
 
