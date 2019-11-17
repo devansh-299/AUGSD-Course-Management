@@ -1,5 +1,9 @@
 {% load static %}
-{{ form.media }} {# Form required JS and CSS #}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
+
 
 <html>
 
@@ -10,11 +14,16 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+  'datetimepicker',
   <style type="text/css">
     body {
+      'datetimepicker',
       background: url('{% static "images/background.jpg"%}') no-repeat center center fixed;
+      'datetimepicker',
       -webkit-background-size: cover;
+      'datetimepicker',
       -moz-background-size: cover;
+      'datetimepicker',
       background-size: cover;
       -o-background-size: cover;
     }

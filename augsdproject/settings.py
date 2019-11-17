@@ -32,12 +32,13 @@ ALLOWED_HOSTS = ['127.0.0.1']  #can be changed
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    # 'bootstrap_datepicker_plus',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'crispy_forms',
+    'bootstrap4',
+    'bootstrap_datepicker_plus',
     'django.contrib.staticfiles',
     'augsdapp.apps.AugsdappConfig'     
 ]
@@ -122,7 +123,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# BOOTSTRAP4 = {
-#     'include_jquery': True,
-# }
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

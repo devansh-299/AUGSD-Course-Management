@@ -1,6 +1,7 @@
 {% extends "augsdapp/base.html" %}
 {% load crispy_forms_tags %}
 
+
 {% block title %}
 Add Course
 {% endblock %}
@@ -12,7 +13,7 @@ Add Course
 {% block content %}
 <div class="container AddCourseForm">
     <form method="POST" class="AddCourseForm">{% csrf_token %}
-        {{ form|crispy}}
+        {{ form|crispy }}
         <button type="submit" class="btn btn-primary">Add Course</button>
     </form>
 </div>
