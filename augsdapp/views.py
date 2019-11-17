@@ -61,9 +61,6 @@ def ModifyCourse(request):
 		else:
 			messages.success(request, 'No Course Found')
 			return render(request, 'augsdapp/ModifyCourse.html')
-
-	# modify button implementation not done
-
 	else:
 		return render(request, 'augsdapp/ModifyCourse.html')
 
@@ -82,10 +79,8 @@ def DeleteCourse(request):
 			else:
 				messages.success(request, 'No Course Found')
 				return render(request, 'augsdapp/DeleteCourse.html')
-		else:
-			return render(request, 'augsdapp/DeleteCourse.html')
 
-		if request.GET.get('deleteCourseButton'):
+		elif request.GET.get('deleteCourseButton'):
 			search_query = request.GET.get('q',None)
 			submitbutton= request.GET.get('submit')
 			if search_query is not None:
@@ -98,6 +93,7 @@ def DeleteCourse(request):
 			else:
 				messages.success(request, 'No Course Found')
 				return render(request, 'augsdapp/DeleteCourse.html')
-
+		else:
+			return render(request, 'augsdapp/DeleteCourse.html')
 
 
