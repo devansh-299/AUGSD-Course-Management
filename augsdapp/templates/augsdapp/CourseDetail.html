@@ -1,0 +1,42 @@
+{% extends "augsdapp/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Add Section
+{% endblock %}
+
+{% block content %}
+
+	{% for section in sectionList %}
+		<div class="card w-50">
+  			<div class="card-body">
+    			<h5 class="card-title">
+    				{{section.course}} | <b>{{section.name}}</b>
+    			</h5>
+    				<p class="card-text">
+    					<b>Instructor </b> - 
+						{{section.instructor}}
+						<br/>
+						<b>Days </b> - 
+						{{section.days}}
+						<br/>
+						<b>Start Time </b> - 
+						{{section.startTime}}
+						<br/>
+						<b>End Time </b> - 
+						{{section.endTime}}
+    				</p>
+    					<form action="{% url 'updateSection' section_pk=section.pk %}" method="POST">
+    						{% csrf_token %}
+ 							<input
+ 								type="submit"
+ 								class="btn btn-primary"
+ 								value="Modify Section" 
+ 								name="modifySectionButton"
+ 							/>
+						</form>
+  			</div>
+		</div>
+	{% endfor %}
+
+{% endblock content %}

@@ -37,8 +37,14 @@
 								<b>Comprehensive Date Time </b> - 
 								{{result.compreDateTime}}
     					</p>
-    					<form action="#" method="GET">
- 							<input type="submit" class="btn btn-primary" value="Modify Course" name="modifyCourseButton">
+    					<form action="{% url 'courseDetail' course_pk=result.pk %}" method="POST">
+    						{% csrf_token %}
+ 							<input 
+ 								type="submit"
+ 								class="btn btn-primary"
+ 								value="Modify Course" 
+ 								name="modifyCourseButton"
+ 							/>
 						</form>
   				</div>
 			</div>

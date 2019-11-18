@@ -24,20 +24,21 @@
 		</h1>
 		<ul>
 		{% for result in results %}
-			<div class="card w-50">
+			<div class="card w-50 card-course-{{ result.pk }}">
   				<div class="card-body">
     				<h5 class="card-title">{{result.courseCode}} | {{result.courseName}}</h5>
     					<p class="card-text">
-    							<b>Instructor Incharge </b> - 
-								{{result.courseIC}}
-								<br/>
-								<b>MidSem Date Time </b> - 
-								{{result.midsemDateTime}}
-								<br/>
-								<b>Comprehensive Date Time </b> - 
-								{{result.compreDateTime}}
+    						<b>Instructor Incharge </b> - 
+							{{result.courseIC}}
+							<br/>
+							<b>MidSem Date Time </b> - 
+							{{result.midsemDateTime}}
+							<br/>
+							<b>Comprehensive Date Time </b> - 
+							{{result.compreDateTime}}
     					</p>
-    					<form method="GET">
+    					<form action="{% url 'single_course_delete' course_pk=result.pk %}" method="POST">
+    						{% csrf_token %}	
  							<input type="submit" class="btn btn-primary" value="Delete Course" name="deleteCourseButton">
 						</form>
   				</div>
