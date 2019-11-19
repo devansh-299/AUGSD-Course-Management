@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AddCourseForm, AddSectionForm
-from .models import SecClass, Course
+from .models import SecClass, Course, Instructor
 from django.contrib import messages
 from django.db.models import Q
 
@@ -43,6 +43,12 @@ def AddSection(request, CourseCode):
                     request, 'Room cannot accomodate more participants')
                 form = AddSectionForm(request.POST)
             else:
+                currentInstructor = get_object_or_404(Instructor,
+                    instructorId=form.cleaned_data.get('instructor'))
+                currentInstructor.days = form.cleaned_data('days')  
+                currentInstructor.time = form.cleaned_data('startTime')
+                currentInstructor.save()
+                # end time not handled
                 post = form.save(commit=False)
                 post.save()
                 messages.success(request, 'Successful')

@@ -31,6 +31,11 @@ class Room(models.Model):
 
 class Instructor(models.Model):
     instructorId = models.OneToOneField(User, on_delete=models.CASCADE)
+    days = models.CharField(max_length=7, null=True)
+    time = models.TimeField(null=True)
+
+    def __str__(self):
+        return str(self.instructorId)
 
 
 class SecClass(models.Model):
@@ -51,7 +56,7 @@ class SecClass(models.Model):
         max_length=1,
         choices=secClassChoices)
     instructor = models.ForeignKey(
-        User,
+        Instructor,
         on_delete="SET_NULL",
         null=True)
     days = models.CharField(max_length=7)
